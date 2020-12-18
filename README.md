@@ -24,15 +24,6 @@ Run the following scripts in your mysql server
   - For tabs, replace all instances of 2 tabs with one (many ways to do this, easy way here is manually but there are other ways i.e. with linux shell, sed is a popular option). 
 
 ## 3) Proceed with your own assumptions to create the SQL statement that provides a query that returns the most current activity for each measure (A1C, BMI, COL, BSC) for active members. Each row in the result represents an active member without duplication.
-  - Member Id
-  - Member Name
-  - A1c DOS
-  - A1c Result
-  - BMI DOS
-  - BMI Result
-  - COL DOS
-  - COL Procedure
-  - BCS DOS
 
 Answer in ./problem-3.sql
 
