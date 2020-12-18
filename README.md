@@ -1,38 +1,38 @@
 # Aspire Health Plan SQL assesment 
 
 ## Reproduce database
-run the following scripts in your mysql server:
-	1) create_tables.sql - This creates the 3 tables (eligibility, claims, hedis) necessary for analysis. Make sure you have a database selected before running!
-	2) load_data.sql - This loads the text files in the /data directory into the proper tables.
+Run the following scripts in your mysql server
+1) create_tables.sql - This creates the 3 tables (eligibility, claims, hedis) necessary for analysis. Make sure you have a database selected before running!
+2) load_data.sql - This loads the text files in the /data directory into the proper tables.
 
 # Solutions to Instructions.txt
 
 # Section 1
-1) What clarifications would you need before starting this process?
+## 1) What clarifications would you need before starting this process?
 	* Which dialect of SQL I should be using (I assumed mysql)
 	* Format of the text files (seperated by spaces, tabs, commas ect)
 	* More metadata would be helpful (what the tables are representing, all the enumerations of the HEDIS measure, what number type the 'result' value should be, ect.)
 
-2) Load the attached data files into database tables:
-	* Identify the errors that you found with the data while loading the data.
+## 2) Load the attached data files into database tables:
+	##* Identify the errors that you found with the data while loading the data.
 		- First line is column definitions, not a row in the table
 		- Date formats were not correct
 		- Some columns are seperated by two tabs instead of 1 (this may only be a personally computer error, not entirely sure).
-	* Describe the process you would follow if errors are found.
+	##* Describe the process you would follow if errors are found.
 		- For first line, use IGNORE 1 LINE clause
 		- For date formats, used TEXT_TO_STRING function in loading file.
 		- For tabs, replace all instances of 2 tabs with one (many ways to do this, easy way here is manually but there are other ways i.e. with linux shell, sed is a popular option). 
 
-3) Proceed with your own assumptions to create the SQL statement that provides a query that returns the most current activity for each measure (A1C, BMI, COL, BSC) for active members. Each row in the result represents an active member without duplication.
-	· Member Id
-	· Member Name
-	· A1c DOS
-	· A1c Result
-	· BMI DOS
-	· BMI Result
-	· COL DOS
-	· COL Procedure
-	· BCS DOS
+## 3) Proceed with your own assumptions to create the SQL statement that provides a query that returns the most current activity for each measure (A1C, BMI, COL, BSC) for active members. Each row in the result represents an active member without duplication.
+· Member Id
+· Member Name
+· A1c DOS
+· A1c Result
+· BMI DOS
+· BMI Result
+· COL DOS
+· COL Procedure
+· BCS DOS
 
 Answer in ./problem-3.sql
 
@@ -67,5 +67,5 @@ There were a few problems with query in given query. the variables being selecte
 ## Section 3
 ### Create a query that returns the minimum number of continuous date ranges where a member was active and provide the results.
 
-So for this query, I did a little snooping online and found an amazing example of this [here](https://stackoverflow.com/questions/16595993/sql-find-continuous-date-ranges-across-multiple-rows). Turns out, a recursive common table expression (cte) is able to compare the start and end dates effectively, and returns the continuous values requested. I will admit, my knowledge of recursive tables and there capabilities is small. I am going to be looking into this tool/sql command in the next couple of days or so. In the meantime, here is my modified version of the link above that solves our problem properly.
+So for this query, I did a little snooping online and found an amazing example of this [here](https://stackoverflow.com/questions/16595993/sql-find-continuous-date-ranges-across-multiple-rows). Turns out, a recursive common table expression (cte) is able to compare the start and end dates effectively, and returns the continuous values requested. I will admit, my knowledge of recursive tables and there capabilities is small. I am going to be looking into this tool/sql command in the next couple of days or so. In the meantime, my modified version of the link above (located in section-4.sql) solves our problem properly.
 
