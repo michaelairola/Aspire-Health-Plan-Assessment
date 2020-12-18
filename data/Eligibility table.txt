@@ -1,0 +1,15 @@
+Member Id	 Name	Start Date	End Date
+1	Michael Jackson	1/1/2014	12/31/2016
+1	Michael Jackson	1/1/2019	
+2	Cyndi Lauper	1/1/2019	
+3	Depeche Mode	1/1/2019	5/31/2019
+4	Duran Duran	12/1/2019	6/30/2020
+4	Duran Duran	8/1/2020	
+5	Fleetwood Mac	8/1/2020
+6	Debbie Gibson	6/1/2020	8/1/2019	
+115	Popeye The Sailor Man	1/1/2012 	3/31/2012
+115	Popeye The Sailor Man	4/1/2012	4/30/2012 
+115	Popeye The Sailor Man	6/1/2012	9/30/2012
+115	Popeye The Sailor Man	10/1/2012	12/31/2012
+115	Popeye The Sailor Man	2/1/2013	3/31/2013
+115	Popeye The Sailor Man	4/1/2013	12/31/2013

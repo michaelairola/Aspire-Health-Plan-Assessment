@@ -1,0 +1,78 @@
+﻿---------------------------------------------------------------------------------------------------
+SECTION 1
+---------------------------------------------------------------------------------------------------
+
+TABLES (3):
+
+Eligibility
+o   member Id
+o   member name
+
+HEDIS (may have multiple  dates of service per measure – want only the most current result)
+o   Member id
+o   HEDIS Measure – A1C, BMI, COL, BCS
+o   Date Performed
+o   Result
+    
+Claims (may have multiple  dates of service per measure – want only the most current result)
+o   Member id
+o   HEDIS measure – AWV, COL, BCS
+o   Procedure code
+o   Date Performed
+
+INSTRUCTIONS/QUESTIONS:
+
+1) What clarifications would you need before starting this process?
+
+2) Load the attached data files into database tables:
+o  Identify the errors that you found with the data while loading the data. 
+	- first line is column definitions, not a row in the table
+	- date formats were not correct
+	- some columns are seperated by two tabs instead of 1
+o  Describe the process you would follow if errors are found.
+3) Proceed with your own assumptions to create the SQL statement that provides a query that returns the most current activity for each measure (A1C, BMI, COL, BSC) for active members. Each row in the result represents an active member without duplication.
+	· Member Id
+	· Member Name
+	· A1c DOS
+	· A1c Result
+	· BMI DOS
+	· BMI Result
+	· COL DOS
+	· COL Procedure
+	· BCS DOS
+
+
+4) Provide results of the query
+
+-------------------------------------------------------------------------------------------------------
+SECTION 2
+-------------------------------------------------------------------------------------------------------
+
+
+-> This query throws an error. Can you fix it?
+
+	WITH compliant AS (
+		SELECT REPORT_DATE, MEASURE, COUNT(*) COMPLIANT_COUNT FROM compliance WHERE COMPLIANCE_FLAG = 'Compliant' GROUP BY REPORT_DATE, MEASURE
+	)
+	, noncompliant AS (
+		SELECT REPORT_DATE, MEASURE, COUNT(*) NON_COMPLIANT_COUNT FROM compliance WHERE COMPLIANCE_FLAG = 'Non-Compliant' GROUP BY REPORT_DATE, MEASURE
+	)
+	SELECT
+	REPORT_DATE, MEASURE, COMPLIANT_COUNT, NON_COMPLIANT_COUNT, (COMPLIANT_COUNT / (COUNT(*) * 1.0) ) AS COMPLIANCE_RATE
+	FROM compliance
+	LEFT JOIN compliant ON REPORT_DATE = REPORT_DATE AND MEASURE = MEASURE
+	;
+
+-------------------------------------------------------------------------------------------------------
+SECTION 3
+-------------------------------------------------------------------------------------------------------
+-> Create a query that returns the minimum number of continuous date ranges where a member was active and provide the results.
+
+Example data set
+Member ID	Member Name	Start Date	End Date
+115	Popeye The Sailor Man	1/1/2012 	3/31/2012
+115	Popeye The Sailor Man	4/1/2012	4/30/2012 
+115	Popeye The Sailor Man	6/1/2012	9/30/2012
+115	Popeye The Sailor Man	10/1/2012	12/31/2012
+115	Popeye The Sailor Man	2/1/2013	3/31/2013
+115	Popeye The Sailor Man	4/1/2013	12/31/2013
