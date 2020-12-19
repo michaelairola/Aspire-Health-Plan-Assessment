@@ -40,7 +40,7 @@ Answer in ./problem-3.sql
     4 rows in set (0.01 sec)
 
 ## Section 2
-There were a few problems in given query. The variables being selected were not specific enough (the table domains needed to be established). Also, the noncompliant table needed to be joined in order to be reference in the select statement. Upon firing this query, sql_modes 'ONLY_FULL_GROUP_BY' threw an error, not sure if this is important but I went ahead and disabled it. The query below works under this assumption.
+There were a few problems in the given query. The variables being selected were not specific enough (the table domains needed to be established). Also, the noncompliant table needed to be joined in order to be reference in the select statement. Upon firing this query, sql_modes 'ONLY_FULL_GROUP_BY' threw an error, not sure if this is important but I went ahead and disabled it. The query below works under this assumption.
 
 	WITH compliant AS (
 		SELECT REPORT_DATE, MEASURE, COUNT(*) COMPLIANT_COUNT FROM compliance WHERE COMPLIANCE_FLAG = 'Compliant' GROUP BY REPORT_DATE, MEASURE
@@ -58,7 +58,7 @@ There were a few problems in given query. The variables being selected were not 
 ## Section 3
 ### Create a query that returns the minimum number of continuous date ranges where a member was active and provide the results.
 
-So for this query, I did a little snooping online and found an amazing example of it [here](https://stackoverflow.com/questions/16595993/sql-find-continuous-date-ranges-across-multiple-rows). Turns out, a recursive common table expression (cte) is able to compare the start and end dates effectively, and returns the continuous values requested. I will admit, my knowledge of recursive tables and there capabilities is small. I am going to be looking into this tool/sql command in the next couple of days or so. In the meantime, my modified version of the link above (located in section-4.sql) solves our problem properly.
+So for this query, I did a little snooping online and found an amazing example of it [here](https://stackoverflow.com/questions/16595993/sql-find-continuous-date-ranges-across-multiple-rows). Turns out, a recursive common table expression (cte) is able to compare the start and end dates effectively, and returns the continuous values requested. I will admit, my knowledge of recursive tables and their capabilities is small. I am going to be looking into this tool/sql command in the next couple of days or so. In the meantime, my modified version of the link above (located in section-4.sql) solves our problem properly.
 
     +-----------------------+------------+------------+
     | name                  | start_date | end_date   |
