@@ -1,18 +1,23 @@
 WITH
-	current_hedis AS (SELECT 
-		hedis.member_id,
-		hedis.hedis_measure,
-		hedis.date_of_service,
-		hedis.result
-	FROM hedis 
+	hedis_claims_union AS (
+		SELECT member_id, hedis_measure, date_of_service, result FROM hedis
+		UNION ALL
+		SELECT member_id, hedis_measure, date_of_service, NULL FROM claims
+	),
+	current_measures AS (SELECT 
+		hedis_claims_union.member_id,
+		hedis_claims_union.hedis_measure,
+		hedis_claims_union.date_of_service,
+		hedis_claims_union.result
+	FROM hedis_claims_union 
 	INNER JOIN (
 		SELECT 
 		 member_id, 
 		 hedis_measure,
 		 MAX(date_of_service) AS date_of_service
-		FROM hedis
+		FROM hedis_claims_union
 		GROUP BY member_id, hedis_measure 
-	) h ON hedis.member_id = h.member_id AND hedis.hedis_measure = h.hedis_measure AND hedis.date_of_service = h.date_of_service
+	) h ON hedis_claims_union.member_id = h.member_id AND hedis_claims_union.hedis_measure = h.hedis_measure AND hedis_claims_union.date_of_service = h.date_of_service
 ) 
 SELECT 
 	eligibility.member_id AS "Member Id",
@@ -29,7 +34,7 @@ LEFT JOIN (
 	 member_id, 
 	 date_of_service,
 	 result
-	FROM current_hedis 
+	FROM current_measures 
 	WHERE hedis_measure = 'A1C'
 ) a1c ON eligibility.member_id = a1c.member_id
 LEFT JOIN (
@@ -37,7 +42,7 @@ LEFT JOIN (
 	 member_id, 
 	 date_of_service,
 	 result
-	FROM current_hedis 
+	FROM current_measures 
 	WHERE hedis_measure = 'BMI'
 ) bmi ON eligibility.member_id = bmi.member_id
 LEFT JOIN (
@@ -45,7 +50,7 @@ LEFT JOIN (
 	 member_id, 
 	 date_of_service,
 	 result
-	FROM current_hedis 
+	FROM current_measures 
 	WHERE hedis_measure = 'COL'
 ) col ON eligibility.member_id = col.member_id
 LEFT JOIN (
@@ -53,7 +58,7 @@ LEFT JOIN (
 	 member_id, 
 	 date_of_service,
 	 result
-	FROM current_hedis 
+	FROM current_measures 
 	WHERE hedis_measure = 'COL'
 ) bcs ON eligibility.member_id = bcs.member_id
 WHERE end_date IS NULL;
